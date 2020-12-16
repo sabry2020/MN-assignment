@@ -1,0 +1,24 @@
+{
+  "name": "assignment-two",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "mongodb": "^3.6.3",
+    "nodemon": "^2.0.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sabry2020/MN-assignment.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sabry2020/MN-assignment/issues"
+  },
+  "homepage": "https://github.com/sabry2020/MN-assignment#readme"
+}
