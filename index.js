@@ -1,13 +1,12 @@
 const MongoClient=require('mongodb').MongoClient;
 const assert=require('assert');
-
-
+const dboper=require('./operations');
 const url=process.env.URI||'mongodb://localhost:27017/';
-
 const dbname='conFusion';
 
 
-MongoClient.connect(url,{ useUnifiedTopology: true } ,(err, client)=>{
+
+MongoClient.connect(url.then((client)=>{
 
 
 
@@ -15,33 +14,28 @@ MongoClient.connect(url,{ useUnifiedTopology: true } ,(err, client)=>{
 
     console.log('connected correctly to the server');
     const db =client.db(dbname);
-    const collection=db.collection('dishes'); //changed to var caused an error?
 
+dboper.insertDocument(db,{name:"Mohamed",description:"my name is mohamed "}, 'dishes')
+.then((result)=>{
 
-collection.insertOne({"name":"HOHO", "description":"HEHE"},(err,result)=>{
-
-    assert.equal(err,null);
-
-console.log('After insert ');
-console.log(result.ops);
+console.log('Inserted the Document \n ', result.ops);
+dboper.findDocument(db, 'dishes', (document)=>{
+    console.log('Found '+document);
 });
 
+    dboper.updateDocument(db, {name:"Ashraf",description:"Mohamed to ashraf "},(result)=>{
+console.log(`Updated document`, result.result);
 
+    
+dboper.findDocuments(db, "dishes", (docs) => {
+    console.log("Found Updated Documents:\n", docs);
+    
+    db.dropCollection("dishes", (result) => {
+        console.log("Dropped Collection: ", result);
 
-collection.find({}).toArray((err,docs)=>{
-    assert.equal(err,null);
-    console.log('Found:');
-    console.log(docs);
-
-    db.dropCollection('dishes', (err,result)=>{
-        assert.equal(err,null);
-        
         client.close();
-
-    });
-    
-    
-});
-
-
-})
+          });
+        });
+      });
+   });
+}).catch((err)=>console.log(err));
